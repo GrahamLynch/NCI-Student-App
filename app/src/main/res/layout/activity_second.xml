@@ -13,5 +13,14 @@
         android:text="This is the second activity"
         android:textSize="32sp"
         tools:layout_editor_absoluteX="9dp"
-        tools:layout_editor_absoluteY="158dp" />
+        tools:layout_editor_absoluteY="183dp" />
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="Button"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:layout_editor_absoluteX="148dp" />
 </android.support.constraint.ConstraintLayout>
