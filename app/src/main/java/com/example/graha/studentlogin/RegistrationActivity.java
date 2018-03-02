@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -22,6 +24,9 @@ public class RegistrationActivity extends AppCompatActivity {
     private Button regButton;
     private TextView userLogin;
     private FirebaseAuth firebaseAuth;
+    String student_number;
+    String student_password;
+    String student_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +81,9 @@ public class RegistrationActivity extends AppCompatActivity {
     private Boolean validate(){
         Boolean result = false;
 
-        String student_number = studentNumber.getText().toString();
-        String student_password = studentPassword.getText().toString();
-        String student_email = studentEmail.getText().toString();
+        student_number = studentNumber.getText().toString();
+        student_password = studentPassword.getText().toString();
+        student_email = studentEmail.getText().toString();
 
         if(student_number.isEmpty() || student_password.isEmpty() || student_email.isEmpty()){
             Toast.makeText(this, "Please Enter All of Your Information", Toast.LENGTH_SHORT).show();
@@ -96,6 +101,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
+                        sendUserData();
                         Toast.makeText(RegistrationActivity.this, "You have been successfully registered, Verification Email has been sent to your student Email Address!", Toast.LENGTH_SHORT).show();
                         firebaseAuth.signOut();
                         finish();
@@ -106,6 +112,13 @@ public class RegistrationActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void sendUserData(){
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase.getReference(firebaseAuth.getUid());
+        StudentProfile studentProfile = new StudentProfile(student_number , student_email);
+        myRef.setValue(studentProfile);
     }
 
 
