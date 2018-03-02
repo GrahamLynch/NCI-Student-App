@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView studentRegistration;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
-
+    private TextView forgotPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         Info = (TextView) findViewById(R.id.attemptView);
         Login = (Button) findViewById(R.id.logInBtn);
         studentRegistration = (TextView)findViewById(R.id.textViewRegister);
+        forgotPassword = (TextView)findViewById(R.id.textViewForgotPassword);
 
         Info.setText(" No of attempts remaining 5");
 
@@ -62,8 +63,14 @@ public class MainActivity extends AppCompatActivity {
         studentRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, RegistrationActivity.class
-                ));
+                startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
+            }
+        });
+
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, PasswordActivity.class));
             }
         });
     }
