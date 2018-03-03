@@ -20,13 +20,14 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    private EditText studentNumber, studentPassword, studentEmail;
+    private EditText studentNumber, studentPassword, studentEmail, studentName;
     private Button regButton;
     private TextView userLogin;
     private FirebaseAuth firebaseAuth;
     String student_number;
     String student_password;
     String student_email;
+    String student_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class RegistrationActivity extends AppCompatActivity {
         studentEmail = (EditText)findViewById(R.id.etUserEmail);
         regButton  = (Button)findViewById(R.id.registerBtn);
         userLogin = (TextView)findViewById(R.id.tvUserLogin);
+        studentName = (EditText)findViewById(R.id.nameText);
     }
 
     private Boolean validate(){
@@ -84,6 +86,7 @@ public class RegistrationActivity extends AppCompatActivity {
         student_number = studentNumber.getText().toString();
         student_password = studentPassword.getText().toString();
         student_email = studentEmail.getText().toString();
+        student_name = studentName.getText().toString();
 
         if(student_number.isEmpty() || student_password.isEmpty() || student_email.isEmpty()){
             Toast.makeText(this, "Please Enter All of Your Information", Toast.LENGTH_SHORT).show();
@@ -117,7 +120,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private void sendUserData(){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = firebaseDatabase.getReference(firebaseAuth.getUid());
-        StudentProfile studentProfile = new StudentProfile(student_number , student_email);
+        StudentProfile studentProfile = new StudentProfile(student_name , student_number , student_email);
         myRef.setValue(studentProfile);
     }
 
