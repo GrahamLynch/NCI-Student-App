@@ -10,6 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.Activity;
+import android.nfc.NfcAdapter;
+import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,11 +32,16 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
     private TextView forgotPassword;
+    public static final String TAG = "NfcDemo";
+    private TextView mTextView;
+    private NfcAdapter mNfcAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         Student = (EditText) findViewById(R.id.etStudent);
         Password = (EditText) findViewById(R.id.etPassword);
@@ -73,7 +82,32 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, PasswordActivity.class));
             }
         });
+
+        mTextView = (TextView) findViewById(R.id.nfcTextview);
+
+        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+
+        if (mNfcAdapter == null) {
+            // Stop here, we definitely need NFC
+            Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+
+        }
+
+        if (!mNfcAdapter.isEnabled()) {
+            mTextView.setText("NFC is disabled.");
+        } else {
+            mTextView.setText("NFC is enabled");
+        }
+
+        handleIntent(getIntent());
     }
+
+    private void handleIntent(Intent intent) {
+        // TODO: handle Intent
+    }
+
 
     private void validate(String studentNumber, String password) {
 
