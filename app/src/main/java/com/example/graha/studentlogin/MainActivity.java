@@ -10,10 +10,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.app.Activity;
+import android.content.Intent;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,16 +44,12 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
     private TextView forgotPassword;
-    public static final String TAG = "NfcDemo";
-    private TextView mTextView;
-    private NfcAdapter mNfcAdapter;
+    NfcAdapter nfcAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         Student = (EditText) findViewById(R.id.etStudent);
         Password = (EditText) findViewById(R.id.etPassword);
@@ -60,6 +68,19 @@ public class MainActivity extends AppCompatActivity {
         if (user != null){
             finish();
             startActivity(new Intent(MainActivity.this, SecondActivity.class));
+        }
+
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if (nfcAdapter == null) {
+            Toast.makeText(MainActivity.this, "You Need NFC to use This App", Toast.LENGTH_SHORT).show();
+            finish(); }
+
+         else if (!nfcAdapter.isEnabled()) {
+            Toast.makeText(MainActivity.this, "Please Enable NFC", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(Settings.ACTION_NFC_SETTINGS));
+        } else if (!nfcAdapter.isNdefPushEnabled()) {
+            Toast.makeText(MainActivity.this, "Please Enable Androidn Beam", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(Settings.ACTION_NFCSHARING_SETTINGS));
         }
 
         Login.setOnClickListener(new View.OnClickListener() {
@@ -82,30 +103,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, PasswordActivity.class));
             }
         });
-
-        mTextView = (TextView) findViewById(R.id.nfcTextview);
-
-        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-
-        if (mNfcAdapter == null) {
-            // Stop here, we definitely need NFC
-            Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
-            finish();
-            return;
-
-        }
-
-        if (!mNfcAdapter.isEnabled()) {
-            mTextView.setText("NFC is disabled.");
-        } else {
-            mTextView.setText("NFC is enabled");
-        }
-
-        handleIntent(getIntent());
-    }
-
-    private void handleIntent(Intent intent) {
-        // TODO: handle Intent
     }
 
 
