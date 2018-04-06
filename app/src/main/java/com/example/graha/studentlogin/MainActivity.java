@@ -117,55 +117,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public NdefMessage createNdefMessage () {
-        String scanDate;
-        String scanTime;
-        Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
-
-        month = month + 1;
-        if (month < 10 && day < 10) {
-            scanDate = year + "-0" + month + "-0" + day;
-        } else if (month < 10) {
-            scanDate = year + "-0" + month + "-" + day;
-        } else if (day < 10) {
-            scanDate = year + "-" + month + "-0" + day;
-        } else {
-            scanDate = year + "-" + month + "-" + day;
-        }
-
-        if (hour < 10 && minute < 10) {
-            scanTime = "0" + hour + ":0" + minute;
-        } else if (hour < 10) {
-            scanTime = "0" + hour + ":" + minute;
-        } else if (minute < 10) {
-            scanTime = hour + ":0" + minute;
-        } else {
-            scanTime = hour + ":" + minute;
-        }
-
-        String studentNo = user.getEmail().substring(0, user.getEmail().indexOf('@'));
-
-        return new NdefMessage(new NdefRecord[]{
-                NdefRecord.createTextRecord("en", user.getUid()),
-                NdefRecord.createTextRecord("en", studentNo),
-                NdefRecord.createTextRecord("en", scanDate),
-                NdefRecord.createTextRecord("en", scanTime)
-                , NdefRecord.createApplicationRecord("com.example.graha.studentlogin")
-        });
-
-    }
-
-
-    @Override
-    public void onResume() {
-        nfcAdapter.setNdefPushMessage(createNdefMessage(), this);
-        super.onResume();
-    }
 
 
     private void validate(String studentNumber, String password) {
