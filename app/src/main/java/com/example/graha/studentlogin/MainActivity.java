@@ -23,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -30,6 +31,7 @@ import java.util.List;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -46,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView forgotPassword;
     NfcAdapter nfcAdapter;
 
+    FirebaseUser user;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,17 +60,17 @@ public class MainActivity extends AppCompatActivity {
         Password = (EditText) findViewById(R.id.etPassword);
         Info = (TextView) findViewById(R.id.attemptView);
         Login = (Button) findViewById(R.id.logInBtn);
-        studentRegistration = (TextView)findViewById(R.id.textViewRegister);
-        forgotPassword = (TextView)findViewById(R.id.textViewForgotPassword);
+        studentRegistration = (TextView) findViewById(R.id.textViewRegister);
+        forgotPassword = (TextView) findViewById(R.id.textViewForgotPassword);
 
         Info.setText(" No of attempts remaining 5");
 
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
 
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+         user = firebaseAuth.getCurrentUser();
 
-        if (user != null){
+        if (user != null) {
             finish();
             startActivity(new Intent(MainActivity.this, SecondActivity.class));
         }
@@ -73,36 +78,93 @@ public class MainActivity extends AppCompatActivity {
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter == null) {
             Toast.makeText(MainActivity.this, "You Need NFC to use This App", Toast.LENGTH_SHORT).show();
-            finish(); }
-
-         else if (!nfcAdapter.isEnabled()) {
+            finish();
+        } else if (!nfcAdapter.isEnabled()) {
             Toast.makeText(MainActivity.this, "Please Enable NFC", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(Settings.ACTION_NFC_SETTINGS));
         } else if (!nfcAdapter.isNdefPushEnabled()) {
-            Toast.makeText(MainActivity.this, "Please Enable Androidn Beam", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Please Enable Android Beam", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(Settings.ACTION_NFCSHARING_SETTINGS));
         }
 
-        Login.setOnClickListener(new View.OnClickListener() {
+
+        Login.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View view) {
                 validate(Student.getText().toString(), Password.getText().toString());
             }
         });
 
-        studentRegistration.setOnClickListener(new View.OnClickListener() {
+        studentRegistration.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
             }
         });
 
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
+        forgotPassword.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, PasswordActivity.class));
             }
         });
+
+    }
+
+    public NdefMessage createNdefMessage () {
+        String scanDate;
+        String scanTime;
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+
+        month = month + 1;
+        if (month < 10 && day < 10) {
+            scanDate = year + "-0" + month + "-0" + day;
+        } else if (month < 10) {
+            scanDate = year + "-0" + month + "-" + day;
+        } else if (day < 10) {
+            scanDate = year + "-" + month + "-0" + day;
+        } else {
+            scanDate = year + "-" + month + "-" + day;
+        }
+
+        if (hour < 10 && minute < 10) {
+            scanTime = "0" + hour + ":0" + minute;
+        } else if (hour < 10) {
+            scanTime = "0" + hour + ":" + minute;
+        } else if (minute < 10) {
+            scanTime = hour + ":0" + minute;
+        } else {
+            scanTime = hour + ":" + minute;
+        }
+
+        String studentNo = user.getEmail().substring(0, user.getEmail().indexOf('@'));
+
+        return new NdefMessage(new NdefRecord[]{
+                NdefRecord.createTextRecord("en", user.getUid()),
+                NdefRecord.createTextRecord("en", studentNo),
+                NdefRecord.createTextRecord("en", scanDate),
+                NdefRecord.createTextRecord("en", scanTime)
+                , NdefRecord.createApplicationRecord("com.example.graha.studentlogin")
+        });
+
+    }
+
+
+    @Override
+    public void onResume() {
+        nfcAdapter.setNdefPushMessage(createNdefMessage(), this);
+        super.onResume();
     }
 
 
@@ -115,16 +177,16 @@ public class MainActivity extends AppCompatActivity {
         firebaseAuth.signInWithEmailAndPassword(studentNumber, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     progressDialog.dismiss();
                     //Toast.makeText(MainActivity.this, "Student Login Successful", Toast.LENGTH_SHORT).show();
                     checkEmailVerification();
-                }else{
+                } else {
                     Toast.makeText(MainActivity.this, "Student Login Failed", Toast.LENGTH_SHORT).show();
                     counter--;
                     Info.setText("No of attempts remaining" + counter);
                     progressDialog.dismiss();
-                    if (counter == 0){
+                    if (counter == 0) {
                         Login.setEnabled(false);
                     }
                 }
@@ -132,16 +194,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void checkEmailVerification(){
+
+    private void checkEmailVerification() {
         FirebaseUser firebaseUser = firebaseAuth.getInstance().getCurrentUser();
         Boolean emailflag = firebaseUser.isEmailVerified();
 
-        if(emailflag){
+        if (emailflag) {
             finish();
             startActivity(new Intent(MainActivity.this, SecondActivity.class));
-        }else{
+        } else {
             Toast.makeText(this, "Verify your Student Email", Toast.LENGTH_SHORT).show();
             firebaseAuth.signOut();
         }
     }
+
 }
+
+
+
+
