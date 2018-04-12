@@ -38,7 +38,6 @@
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".PasswordActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".Stats"></activity>
     </application>
 
 </manifest>
