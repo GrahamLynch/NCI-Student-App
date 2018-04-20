@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "573185506037",
+    "firebase_url": "https://studentlogin-44b4c.firebaseio.com",
+    "project_id": "studentlogin-44b4c",
+    "storage_bucket": "studentlogin-44b4c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573185506037:android:dc035af33f3b7f41",
+        "android_client_info": {
+          "package_name": "com.example.graha.ncistudentreciever"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "573185506037-kmh30rufti0gcbc1n141ma7n9fatmnnj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4tToZI_EuU1D9IfcZI3iUA7Ch-SEi49I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573185506037:android:4d683aeaa15edcc6",
+        "android_client_info": {
+          "package_name": "com.example.graha.studentlogin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "573185506037-kmh30rufti0gcbc1n141ma7n9fatmnnj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4tToZI_EuU1D9IfcZI3iUA7Ch-SEi49I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

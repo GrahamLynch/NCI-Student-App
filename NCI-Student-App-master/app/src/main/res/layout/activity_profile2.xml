@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".Profile"
+android:orientation="vertical">
+
+<ImageView
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:layout_gravity="center"
+    android:src="@drawable/logo"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/studentNumberTv"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text=""
+    android:textAlignment="center"
+        android:textSize="15sp"
+    android:textAllCaps="false"/>
+
+    <TextView
+        android:id="@+id/studentNameTv"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="15sp"
+        android:textAllCaps="false"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:id="@+id/studentEmailTv"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="15sp"
+        android:textAllCaps="false"
+        android:layout_marginTop="15dp"/>
+
+
+    <TextView
+        android:id="@+id/teamProjectTv"
+        android:layout_width="fill_parent"
+        android:text=""
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/dataStructuresTv"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/dataCommsTv"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/softwareEngineeringTv"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/businessTv"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="ugyugu"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="15sp" />
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:text="Sign in to Portal"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:background="@color/colorPrimary"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:onClick="viewPortal"/>
+
+    <Button
+        android:id="@+id/homeBtn"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:text="Return to Home"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:background="@color/colorPrimary"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:onClick="viewHome"/>
+
+
+</LinearLayout>
